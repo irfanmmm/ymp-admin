@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router";
+import Table from "../../components/Table/Table";
 
 function EmployeeInformation() {
+  const navigation = useNavigate();
+
+  const handleAddNewEmployee = () => {
+    navigation("/EmployeeInformation/AddEmployee");
+  };
   return (
     <div class="main-container">
       <div class="pd-ltr-20 xs-pd-20-10">
@@ -13,7 +20,7 @@ function EmployeeInformation() {
                 </div>
               </div>
               <div class="col-md-6 col-sm-12 text-right">
-                <div class="dropdown">
+                <div class="dropdown" onClick={handleAddNewEmployee}>
                   <a
                     class="btn btn-primary dropdown-toggle no-arrow"
                     href="#"
@@ -26,12 +33,19 @@ function EmployeeInformation() {
               <div class="pd-10"></div>
             </div>
 
-            <div class="card-box mb-30">
-              <div class="pd-10"></div>
-              <div class="pb-20">
-                <table class="checkbox-datatable table nowrap"></table>
-              </div>
-            </div>
+            
+
+           
+                 
+                    <div class="row">
+                      
+
+                      <div class="pd-10"></div>
+                    </div>
+
+                    <Table />
+                  
+            
           </div>
         </div>
       </div>

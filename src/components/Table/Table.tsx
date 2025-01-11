@@ -9,25 +9,27 @@ type Props = {
     startDate: string,
     action?: React.ReactNode
   }],
+  children?: React.ReactNode;
   headings: [],
   actions: [],
   filter: []
 }
 
 
-function Table({ rows, headings, actions, filter }: Props) {
+function Table({ rows,children, headings, actions, filter }: Props) {
   return (
     <div className="card-box mb-30">
+      {children}
       <div className="pb-20">
         <table className="data-table table stripe nowrap">
           <thead>
             <tr>
-              <th className="table-plus datatable-nosort">Name</th>
-              <th>Age</th>
-              <th>Office</th>
-              <th>Address</th>
-              <th>Start Date</th>
-              <th className="datatable-nosort">Action</th>
+              {
+                headings?.map((v, i)=>(
+
+                  <th className={i=== 0 ? "table-plus datatable-nosort" : i===headings.length -1 ? 'datatable-nosort' : '' } key={i} >{v}</th>
+                ))
+              }
             </tr>
           </thead>
           <tbody>

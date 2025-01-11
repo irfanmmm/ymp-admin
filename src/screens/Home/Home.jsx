@@ -1,4 +1,5 @@
 import React from "react";
+import Table from "../../components/Table/Table";
 
 function Home() {
   return (
@@ -7,7 +8,7 @@ function Home() {
         <div class="card-box pd-20 height-100-p mb-30">
           <div class="row align-items-center">
             <div class="col-md-4">
-              <img src="/assets/images/banner-img.png" alt=""/>
+              <img src="/assets/images/banner-img.png" alt="" />
             </div>
             <div class="col-md-8">
               <h4 class="font-20 weight-500 mb-10 text-capitalize">
@@ -77,20 +78,19 @@ function Home() {
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xl-8 mb-30">
-            <div class="card-box height-100-p pd-20">
-              <h2 class="h4 mb-20">Activity</h2>
-              <div id="chart5"></div>
-            </div>
-          </div>
-          <div class="col-xl-4 mb-30">
-            <div class="card-box height-100-p pd-20">
-              <h2 class="h4 mb-20">Lead Target</h2>
-              <div id="chart6"></div>
-            </div>
-          </div>
-        </div>
+
+        <Table
+          headings={[
+            "Product Name",
+            "Quantity",
+            "Catogory",
+            "Shop Name",
+            "Date",
+            "Action",
+          ]}
+        >
+          <h2 class="h4 pd-20">Best Selling Products</h2>
+        </Table>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ import Locations from "./screens/Route/Locations";
 import ShopList from "./screens/Route/ShopList";
 import ErrorScreen from "./screens/Error/ErrorScreen";
 import Logo from './../public/assets/images/deskapp-logo.svg';
+import AddEmplyee from "./screens/EmployeeInformation/AddEmplyee";
 
 const LoginLayout = () => {
   return (
@@ -65,6 +66,10 @@ function App() {
           <Route
             path="/EmployeeInformation"
             element={<EmployeeInformation />}
+          />
+          <Route
+            path="/EmployeeInformation/AddEmployee"
+            element={<AddEmplyee />}
           />
           <Route path="/Error" element={<ErrorScreen />} />
           <Route path="/Products/Catogory" element={<Catogory />} />

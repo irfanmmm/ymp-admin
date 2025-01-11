@@ -1,57 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Headder() {
+  const [isOpendDrop, setIsOpendDrop] = useState(false);
   return (
-    <div class="header">
+    <div class="header" style={{
+      paddingRight:50
+    }} >
       <div class="header-left">
         <div class="menu-icon dw dw-menu"></div>
       </div>
-      <div class="header-right">
-        <div class="user-notification">
-          <div class="dropdown">
-            <a
-              class="dropdown-toggle no-arrow"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-            >
-              <i class="icon-copy dw dw-notification"></i>
-              <span class="badge notification-active"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="notification-list mx-h-350 customscroll">
-                <ul>
-                  <li>For Notification</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="user-info-dropdown">
-          <div class="dropdown">
-            <a
-              class="dropdown-toggle"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-            >
+      <div class="header-right mr-md">
+        
+        <div className={"user-info-dropdown mr-lg"}>
+          <div
+            className={`dropdown ${isOpendDrop && "show"}`}
+            onClick={() => {
+              setIsOpendDrop(!isOpendDrop);
+            }}
+          >
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown">
               <span class="user-icon">
                 {/* <img src="/vendors/images/photo1.jpg" alt=""> */}
               </span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-              <a
-                class="dropdown-item"
-                href="javascript:;"
-                data-toggle="right-sidebar"
-              >
+            <div
+              className={`dropdown-menu  dropdown-menu-right dropdown-menu-icon-list ${
+                isOpendDrop && "show"
+              }`}
+            >
+              <a class="dropdown-item">
                 <i class="dw dw-settings2"></i> Setting
               </a>
-              <a
-                class="dropdown-item"
-                asp-controller="Login"
-                asp-action="SignOut"
-              >
+              <a class="dropdown-item">
                 <i class="dw dw-logout"></i> Log Out
               </a>
             </div>

@@ -42,7 +42,7 @@ const TABS = [
     subCategory: [
       {
         parant: "Route",
-        title: "Route",
+        title: "Route List",
         path: "/Route/Locations",
       },
       {
@@ -95,10 +95,10 @@ function Drower() {
             {TABS.map((acc, index) => (
               <li
                 key={index}
-                class="dropdown"
+                class="dropdown "
                 onClick={() => handleClickLogin(acc, acc.path, index)}
               >
-                <a class={`dropdown-toggle ${!acc.subCategory && "no-arrow"}`}>
+                <a class={`dropdown-toggle ${ isOpend.index === index && 'active'} ${!acc.subCategory && "no-arrow"}`}>
                   {acc.icon}
                   <span class="mtext">{acc.title}</span>
                 </a>
@@ -120,7 +120,7 @@ function Drower() {
                         handleClickLogin(subCategory, subCategory.path, index)
                       }
                     >
-                      <a>{subCategory.title}</a>
+                      <a className="active" >{subCategory.title}</a>
                     </li>
                   ))}
                 </ul>
