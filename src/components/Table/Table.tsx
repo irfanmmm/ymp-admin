@@ -2,67 +2,66 @@ import React from "react";
 
 type Props = {
   rows: [{
-    name: string,
-    age: number,
-    office: string,
-    address: string,
-    startDate: string,
-    action?: React.ReactNode
+    id?: number,
+    column1?: string,
+    column2?: number,
+    column3?: string,
+    column4?: string,
+    column5?: string,
+    action?: []
   }],
   children?: React.ReactNode;
   headings: [],
-  actions: [],
+  actions: (id : number) => {},
   filter: []
 }
 
 
-function Table({ rows,children, headings, actions, filter }: Props) {
+function Table({ rows, children, headings, actions, filter }: Props) {
   return (
     <div className="card-box mb-30">
       {children}
       <div className="pb-20">
-        <table className="data-table table stripe nowrap">
+        <table className="data-table table table-striped table-bordered stripe nowrap">
           <thead>
             <tr>
               {
-                headings?.map((v, i)=>(
+                headings?.map((v, i) => (
 
-                  <th className={i=== 0 ? "table-plus datatable-nosort" : i===headings.length -1 ? 'datatable-nosort' : '' } key={i} >{v}</th>
+                  <th className={i === 0 ? "table-plus datatable-nosort" : i === headings.length - 1 ? 'datatable-nosort' : ''} key={i} >{v}</th>
                 ))
               }
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="table-plus">Gloria F. Mead</td>
-              <td>25</td>
-              <td>Sagittarius</td>
-              <td>2829 Trainer Avenue Peoria, IL 61602</td>
-              <td>29-03-2018</td>
-              <td>
-                <div className="dropdown">
-                  <a
-                    className="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-toggle="dropdown"
-                  >
-                    <i className="dw dw-more"></i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                    <a className="dropdown-item" href="#">
-                      <i className="dw dw-eye"></i> View
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i className="dw dw-edit2"></i> Edit
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      <i className="dw dw-delete-3"></i> Delete
-                    </a>
-                  </div>
-                </div>
-              </td>
-            </tr>
+            {
+              rows?.map((v, i) => (
+
+                <tr>
+
+                  {
+                    headings?.map((c, index) => (
+                      <>
+                        <td className="table-plus" onClick={e => {
+                          e.preventDefault();
+                          if (index === headings.length - 1) {
+                            actions(v.id);
+                          }
+                        }} >{v[`column${index + 1}`]}</td>
+                      </>
+                    ))
+                  }
+                  {/* <td onClick={() => actions(v.id)} >{v.action}</td> */}
+
+
+                  {/* <td>{v.column2}</td>
+                  <td>{v.column3}</td>
+                  <td>{v.column4}</td>
+                  <td>{v.column5}</td> */}
+
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>

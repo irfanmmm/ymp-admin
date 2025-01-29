@@ -1,12 +1,50 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { useAxios } from "../../hooks/useAxios.js";
+import { LOGIN_URL } from "../../config/urls.js";
+import { ProductContext } from "../../context/ContextApi.jsx";
 
 function Login() {
+  const { setIsAuthenticated } = useContext(ProductContext);
+  const navigate = useNavigate();
+  const { fetchData } = useAxios();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const navigation = useNavigate()
-  const handleClickLogin = ()=>{
-    navigation('/')
-  }
+  const handleClickLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    if (!username || !password) {
+      setError("Username or password is required");
+      return;
+    } else if (!username) {
+      setError("Username is required");
+      return;
+    } else if (!password) {
+      setError("Password is required");
+      return;
+    }
+    // to trigger login event
+    const response = await fetchData({
+      url: LOGIN_URL,
+      method: "POST",
+      data: {
+        UserName: username,
+        Password: password,
+        Mobile: false,
+      },
+    });
+
+    if (response.statusCode === 6000) {
+      localStorage.setItem("user-data", response?.token);
+      setIsAuthenticated(true);
+      navigate("/");
+    } else {
+      setError(response?.message);
+    }
+  };
+
   return (
     <>
       <div class="login-wrap d-flex align-items-center flex-wrap justify-content-center">
@@ -43,10 +81,15 @@ function Login() {
                   <div class="input-group custom">
                     <input
                       type="text"
-                      asp-for="UserName"
                       id="username"
                       class="form-control form-control-lg"
                       placeholder="Username"
+                      value={username}
+                      onChange={({ target: { value } }) => {
+                        setError("");
+
+                        setUsername(value);
+                      }}
                     />
                     <div class="input-group-append custom">
                       <span class="input-group-text">
@@ -54,21 +97,33 @@ function Login() {
                       </span>
                     </div>
                   </div>
-                  <div class="input-group custom">
+                  <div
+                    class="input-group custom"
+                    style={{
+                      marginBottom: 0,
+                    }}
+                  >
                     <input
                       type="password"
-                      asp-for="Password"
                       id="password"
                       class="form-control form-control-lg"
                       placeholder="**********"
+                      value={password}
+                      onChange={({ target: { value } }) => {
+                        setError("");
+                        setPassword(value);
+                      }}
                     />
-                    <div class="input-group-append custom">
+                    <div class="input-group-append  custom">
                       <span class="input-group-text">
                         <i class="dw dw-padlock1"></i>
                       </span>
                     </div>
                   </div>
-                  <div class="row pb-30">
+                  <div class="form-control-feedback has-danger input-group">
+                    {error}
+                  </div>
+                  {/* <div class="row pb-30">
                     <div class="col-6">
                       <div class="custom-control custom-checkbox">
                         <input
@@ -88,7 +143,7 @@ function Login() {
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="input-group mb-0">

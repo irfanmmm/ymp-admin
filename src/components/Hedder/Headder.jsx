@@ -1,21 +1,59 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { ProductContext } from "../../context/ContextApi.jsx";
+import { useAxios } from "../../hooks/useAxios.js";
+import { GET_PROFILE } from "../../config/urls.js";
 
-function Headder() {
-  const [isOpendDrop, setIsOpendDrop] = useState(false);
+function Header() {
+  const navigation = useNavigate();
+  const { fetchData } = useAxios();
+  const { setIsAuthenticated } = useContext(ProductContext);
+  const [isOpenedDrop, setIsOpenedDrop] = useState(false);
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    getProfile()
+      .then((response) => {
+        setProfile(response?.employeeinfo);
+      })
+      .catch(console.log);
+  }, []);
+
+  const getProfile = async () => {
+    return await fetchData({
+      url: GET_PROFILE,
+    });
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    setIsAuthenticated(false);
+    navigation("/");
+  };
+
   return (
-    <div class="header" style={{
-      paddingRight:50
-    }} >
+    <div
+      class="header"
+      style={{
+        paddingRight: 50,
+      }}
+    >
       <div class="header-left">
         <div class="menu-icon dw dw-menu"></div>
       </div>
-      <div class="header-right mr-md">
-        
+      <div
+        class="header-right mr-md "
+        style={{
+          alignItems: "center",
+        }}
+      >
+        <span className="user-name">{profile?.name}</span>
+
         <div className={"user-info-dropdown mr-lg"}>
           <div
-            className={`dropdown ${isOpendDrop && "show"}`}
+            className={`dropdown ${isOpenedDrop && "show"}`}
             onClick={() => {
-              setIsOpendDrop(!isOpendDrop);
+              setIsOpenedDrop(!isOpenedDrop);
             }}
           >
             <a class="dropdown-toggle" role="button" data-toggle="dropdown">
@@ -25,13 +63,10 @@ function Headder() {
             </a>
             <div
               className={`dropdown-menu  dropdown-menu-right dropdown-menu-icon-list ${
-                isOpendDrop && "show"
+                isOpenedDrop && "show"
               }`}
             >
-              <a class="dropdown-item">
-                <i class="dw dw-settings2"></i> Setting
-              </a>
-              <a class="dropdown-item">
+              <a class="dropdown-item" onClick={logout}>
                 <i class="dw dw-logout"></i> Log Out
               </a>
             </div>
@@ -42,4 +77,4 @@ function Headder() {
   );
 }
 
-export default Headder;
+export default Header;

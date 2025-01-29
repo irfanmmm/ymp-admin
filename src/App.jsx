@@ -1,4 +1,11 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router";
 import "../public/style/App.css";
 import "../public/style/core.css";
 import "../public/style/core.min.css";
@@ -7,20 +14,22 @@ import "../public/style/icon-font.min.css";
 import "../public/style/index.css";
 import "../public/style/style.css";
 import "../public/style/style.min.css";
-import Drower from "./components/Drower/Drower";
-import Headder from "./components/Hedder/Headder";
-import Home from "./screens/Home/Home";
-import AssignRoutes from "./screens/AssignRoutes/AssignRoutes";
-import DailyOrders from "./screens/DailyOrders/DailyOrders";
-import EmployeeInformation from "./screens/EmployeeInformation/EmployeeInformation";
-import Login from "./screens/Login/Login";
-import Catogory from "./screens/Products/Catogory";
-import Products from "./screens/Products/Products";
-import Locations from "./screens/Route/Locations";
-import ShopList from "./screens/Route/ShopList";
-import ErrorScreen from "./screens/Error/ErrorScreen";
-import Logo from './../public/assets/images/deskapp-logo.svg';
-import AddEmplyee from "./screens/EmployeeInformation/AddEmplyee";
+import Drower from "./components/Drower/Drower.jsx";
+import Headder from "./components/Hedder/Headder.jsx";
+import Home from "./screens/Home/Home.jsx";
+import AssignRoutes from "./screens/AssignRoutes/AssignRoutes.jsx";
+import DailyOrders from "./screens/DailyOrders/DailyOrders.jsx";
+import EmployeeInformation from "./screens/EmployeeInformation/EmployeeInformation.jsx";
+import Login from "./screens/Login/Login.jsx";
+import Catogory from "./screens/Products/Catogory.jsx";
+import Products from "./screens/Products/Products.jsx";
+import Locations from "./screens/Route/Locations.jsx";
+import ShopList from "./screens/Route/ShopList.jsx";
+import ErrorScreen from "./screens/Error/ErrorScreen.jsx";
+import Logo from "./../public/assets/images/deskapp-logo.svg";
+import AddEmplyee from "./screens/EmployeeInformation/AddEmplyee.jsx";
+import ContextApi, { ProductContext } from "./context/ContextApi.jsx";
+import { useContext, useEffect } from "react";
 
 const LoginLayout = () => {
   return (
@@ -29,13 +38,12 @@ const LoginLayout = () => {
         <div class="container-fluid d-flex justify-content-between align-items-center">
           <div class="brand-logo">
             <a href="login.html">
-              {/* <img src="" alt=""> */}
-              <img src={Logo} alt="" />
+              <img src="/assets/images/ic_launcher.png" alt="" />
             </a>
           </div>
         </div>
       </div>
-      <Outlet />
+      <Login />
     </div>
   );
 };
@@ -53,13 +61,23 @@ const Layout = () => {
 };
 
 function App() {
+  const { isAuthenticated, setIsAuthenticated } = useContext(ProductContext);
+  useEffect(() => {
+    if (localStorage.getItem("user-data")) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginLayout />}>
-          <Route index element={<Login />} />
-        </Route>
-        <Route path="/" element={<Layout />}>
+        <Route path="/*" element={<ErrorScreen />} />
+        <Route
+          path="/"
+          element={isAuthenticated ? <Layout /> : <LoginLayout />}
+        >
           <Route index element={<Home />} />
           <Route path="/AssignRoutes" element={<AssignRoutes />} />
           <Route path="/DailyOrders" element={<DailyOrders />} />
@@ -67,20 +85,16 @@ function App() {
             path="/EmployeeInformation"
             element={<EmployeeInformation />}
           />
-          <Route
+          {/* <Route
             path="/EmployeeInformation/AddEmployee"
             element={<AddEmplyee />}
-          />
-          <Route path="/Error" element={<ErrorScreen />} />
+          /> */}
           <Route path="/Products/Catogory" element={<Catogory />} />
           <Route path="/Products/Products" element={<Products />} />
 
           <Route path="/Route/Locations" element={<Locations />} />
           <Route path="/Route/ShopList" element={<ShopList />} />
         </Route>
-
-        {/* <Headder />
-        <Drower /> */}
       </Routes>
     </BrowserRouter>
   );

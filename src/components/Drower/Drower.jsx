@@ -15,6 +15,12 @@ const TABS = [
     path: "/EmployeeInformation",
   },
   {
+    title: "Assign Route",
+    icon: <span class="micon icon-copy dw dw-panel6"></span>,
+    activeIcon: <span class="icon-copy dw dw-panel6"></span>,
+    path: "/AssignRoutes",
+  },
+  {
     title: "Products",
     icon: <span class="micon icon-copy fa fa-cubes" aria-hidden="true"></span>,
     activeIcon: <span class="micon fa-solid fa-layer-group"></span>,
@@ -85,20 +91,49 @@ function Drower() {
   return (
     <div class="left-side-bar">
       <div class="brand-logo">
-        <div class="close-sidebar" data-toggle="left-sidebar-close">
-          <i class="ion-close-round"></i>
+        {/* <div class="close-sidebar" data-toggle="left-sidebar-close"> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 15,
+          }}
+        >
+          <img
+            src="/assets/images/ic_launcher.png"
+            alt=""
+            style={{
+              // marginTop: -50,
+              width: 50,
+              height: 50,
+              borderRadius: 10,
+            }}
+          />
+          <h2
+            style={{
+              color: "white",
+            }}
+          >
+            YMP
+          </h2>
+          {/* </div> */}
         </div>
       </div>
       <div class="menu-block customscroll">
         <div class="sidebar-menu">
           <ul id="accordion-menu">
-            {TABS.map((acc, index) => (
+            {TABS?.map((acc, index) => (
               <li
                 key={index}
                 class="dropdown "
                 onClick={() => handleClickLogin(acc, acc.path, index)}
               >
-                <a class={`dropdown-toggle ${ isOpend.index === index && 'active'} ${!acc.subCategory && "no-arrow"}`}>
+                <a
+                  class={`dropdown-toggle ${
+                    isOpend.index === index && "active"
+                  } ${!acc.subCategory && "no-arrow"}`}
+                >
                   {acc.icon}
                   <span class="mtext">{acc.title}</span>
                 </a>
@@ -120,7 +155,7 @@ function Drower() {
                         handleClickLogin(subCategory, subCategory.path, index)
                       }
                     >
-                      <a className="active" >{subCategory.title}</a>
+                      <a className="active">{subCategory.title}</a>
                     </li>
                   ))}
                 </ul>
