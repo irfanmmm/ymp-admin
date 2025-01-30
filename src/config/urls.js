@@ -1,4 +1,4 @@
-export const BASE_URL = "http://www.ympagencies.com/api";
+export const BASE_URL = "https://www.ympagencies.com/api";
 export const LOGIN_URL = BASE_URL + "/api/login";
 export const GET_PROFILE = BASE_URL + "/api/employee";
 export const GET_USERS = BASE_URL + "/api/employee/allemployee";
