@@ -5,7 +5,6 @@ import fs from "fs/promises";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-
   base: "/", // Change this based on your deployment path
   esbuild: {
     loader: "tsx",

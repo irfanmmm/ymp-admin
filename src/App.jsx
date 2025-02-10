@@ -68,7 +68,7 @@ function App() {
     } else {
       setIsAuthenticated(false);
     }
-  }, []);
+  }, [localStorage.getItem("user-data")]);
 
   return (
     <BrowserRouter>

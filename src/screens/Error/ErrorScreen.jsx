@@ -4,9 +4,8 @@ import { useParams } from "react-router";
 function ErrorScreen() {
   const params = useParams();
 
-  if (params.message) {
-    return <div>{JSON.stringify(params?.message)}</div>;
-  }
+  if (params?.message) return <div>{JSON.stringify(params?.message)}</div>;
+
   return (
     <div class="error-page d-flex align-items-center flex-wrap justify-content-center pd-20">
       <div class="pd-10">

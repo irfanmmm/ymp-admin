@@ -36,12 +36,11 @@ function EmployeeInformation() {
       });
 
       console.log(response);
-      
 
       if (response?.statusCode === 6000) {
         const employee = response?.employeeInfo?.map((employee) => ({
           id: employee?.id,
-          column1:employee?.userName,
+          column1: employee?.userName,
           column2: employee?.name,
           column3: employee?.email,
           column4: employee?.phoneNumber,
@@ -64,11 +63,16 @@ function EmployeeInformation() {
 
     const form = new FormData(e.target);
 
+    console.log(form.get("Role"));
+
     if (!form.get("Name")) {
       setError("Please enter a name");
       return;
     } else if (!form.get("Email")) {
       setError("Please enter a Email");
+      return;
+    } else if (!form.get("Role")) {
+      setError("Please select a User Role");
       return;
     } else if (
       !form.get("Phone") ||
@@ -93,6 +97,7 @@ function EmployeeInformation() {
         PhoneNumber: form.get("Phone").toString(),
         Address: form.get("Address"),
         City: form.get("City"),
+        Role: form.get("Role"),
       },
     });
 
@@ -202,6 +207,14 @@ function EmployeeInformation() {
                       class="form-control"
                       name="Email"
                     />
+                  </div>
+                  <div class="form-group col-lg-6">
+                    <label>User Role</label>
+                    <select class="form-control" name="Role" id="">
+                      <option value="">Select Role</option>
+                      <option value="1">Admin</option>
+                      <option value="2">User</option>
+                    </select>
                   </div>
                   <div class="form-group col-lg-6">
                     <label>Phone No</label>

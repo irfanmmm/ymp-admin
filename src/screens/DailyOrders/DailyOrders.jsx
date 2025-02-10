@@ -12,22 +12,14 @@ function DailyOrder() {
     id: null,
     isVisible: false,
   });
-  const [error, setError] = useState("");
-  const containerRef = useRef(null);
 
   const [tableRows, setTableRows] = useState([]);
-  const [xcelRows, setXcelRows] = useState([]);
   const [selected, setSelected] = useState([]);
 
   const { fetchData } = useAxios();
 
   useEffect(() => {
     getDailyOrders();
-    document.addEventListener("click", (e) => {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setError("");
-      }
-    });
   }, []);
 
   const handleGetOrderBill = async (id) => {
@@ -46,17 +38,12 @@ function DailyOrder() {
       if (response?.statusCode === 6000) {
         const rows = [];
         const billRows = [];
-
-        console.log(response?.productlist);
-
         response?.productlist?.forEach((produc) => {
           rows.push({
             id: produc?.orderId,
             column1: `ORD-${produc?.orderId}`,
             column2: produc?.shopName,
-            // ?.map((assigned) => assigned?.routeName)
-            // ?.join(" , "),
-            column3: /* */ produc?.employeeName,
+            column3: produc?.employeeName,
             column4: produc?.products?.length,
             column5: produc?.products?.reduce(
               (total, item) => total + item?.mrp,
@@ -74,10 +61,10 @@ function DailyOrder() {
             date: moment(produc?.data).format("DD-MM-YYYY"),
           });
         });
-
-        console.log(billRows);
         setSelected(billRows);
         setTableRows(rows);
+      } else {
+        throw new Error("Rows is empty");
       }
     } catch (error) {
       console.log(error);
@@ -85,55 +72,41 @@ function DailyOrder() {
   };
 
   const handleDownloadBill = () => {
-    console.log(selected);
-
     const titleRow = [["Daily Orders Report"]];
-
     const dataRows = selected
       ?.filter((v) => v.id === isVisible.id)[0]
       ?.products?.map((row, i) => ({
         "SL NO": i + 1,
-        Product: row?.productName || "N/A",
+        Product: row?.productName ?? "N/A",
         Category: row?.category,
         QTY: row?.quantity,
         MRP: row?.mrp,
         "Total Price": row?.mrp * row?.quantity,
       }));
     const worksheet = XLSX.utils.json_to_sheet([]);
-
-    // Add the title row as the first row
     XLSX.utils.sheet_add_aoa(worksheet, titleRow, { origin: "A1" });
-
-    // Add the data rows starting from row 3
     XLSX.utils.sheet_add_json(worksheet, dataRows, {
       origin: "A3",
       skipHeader: false,
     });
 
-    // Merge cells for the title row (spanning all data columns)
-    const numberOfColumns = Object.keys(dataRows[0]).length; // Number of data columns
+    const numberOfColumns = Object.keys(dataRows[0]).length;
     worksheet["!merges"] = [
       {
-        s: { r: 0, c: 0 }, // Start cell (A1)
-        e: { r: 0, c: numberOfColumns - 1 }, // End cell (last column in row 1)
+        s: { r: 0, c: 0 },
+        e: { r: 0, c: numberOfColumns - 1 },
       },
     ];
-
-    // Apply styles to the heading
     worksheet["A1"].s = {
-      font: { bold: true, size: 16 }, // Bold font, font size 16
-      alignment: { horizontal: "center", vertical: "center" }, // Center alignment
-      fill: { fgColor: { rgb: "FFFF00" } }, // Yellow background
+      alignment: { horizontal: "center", vertical: "center" },
+      fill: { fgColor: { rgb: "FFFF00" } },
     };
 
-    // Optional: Add column width to improve readability
     worksheet["!cols"] = Array(numberOfColumns).fill({ width: 20 });
 
-    // Create a workbook and append the worksheet
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
 
-    // Write to file
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",

@@ -16,6 +16,7 @@ function Products() {
   const { fetchData } = useAxios();
   const [isVisibleDropDown, setIsVisibleDropDown] = useState(false);
   const [productCatogory, setProductCatogory] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [category, setCategory] = useState([]);
 
   const [error, setError] = useState("");
@@ -31,7 +32,7 @@ function Products() {
     getProducts();
     document.addEventListener("click", (e) => {
       if (dropdown.current && !dropdown.current.contains(e.target)) {
-        setIsVisibleDropDown(!isVisibleDropDown);
+        setIsVisibleDropDown(false);
       }
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setError("");
@@ -58,7 +59,7 @@ function Products() {
               column2: product?.productName,
               column3: product?.productDescription,
               column4: catogory?.category,
-              column5: product?.mrp, 
+              column5: product?.mrp,
               column6: (
                 <i
                   className="icon-copy fa fa-trash fa-lg "
@@ -68,6 +69,8 @@ function Products() {
             });
           });
         });
+
+        setProductList(rows);
 
         setProductCatogory(rows);
 
@@ -216,6 +219,11 @@ function Products() {
     console.log(form.get("Products"));
   };
 
+  
+
+
+
+
   return (
     <div class="main-container">
       <div
@@ -226,7 +234,7 @@ function Products() {
       >
         {isVisible.form ? (
           <FormModal
-          heading={"Product"}
+            heading={"Product"}
             onClose={() =>
               setIsVisible({
                 form: false,
@@ -506,6 +514,8 @@ function Products() {
               <div class="pd-10"></div>
             </div>
 
+        
+
             <Table
               headings={[
                 "Product Code",
@@ -515,9 +525,10 @@ function Products() {
                 "MRP",
                 "Action",
               ]}
-              rows={productCatogory}
+              rows={productList}
               actions={handleDelete}
             />
+            
           </div>
         </div>
       </div>

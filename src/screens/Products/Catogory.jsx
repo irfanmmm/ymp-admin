@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Table from "../../components/Table/Table.tsx";
 import { FormModal } from "../../components/Modal/FormModal.jsx";
 import { useAxios } from "../../hooks/useAxios.js";
-import { ADD_CATEGORY, DELETE_CATEGORY, GET_PRODUCTS } from "../../config/urls.js";
+import {
+  ADD_CATEGORY,
+  DELETE_CATEGORY,
+  GET_PRODUCTS,
+} from "../../config/urls.js";
 import Swal from "sweetalert2";
 
 function Catogory() {
@@ -122,7 +126,10 @@ function Catogory() {
         class="pd-ltr-20 xs-pd-20-10"
       >
         {isVisible && (
-          <FormModal  heading={"Category"} onClose={() => setIsVisible(!isVisible)}>
+          <FormModal
+            heading={"Category"}
+            onClose={() => setIsVisible(!isVisible)}
+          >
             <form id="addCategoryForm" onSubmit={handleSubmit}>
               <div class="modal-body">
                 <div class="row">

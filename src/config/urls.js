@@ -1,5 +1,6 @@
-export const BASE_URL = "https://www.ympagencies.com/api";
+export const BASE_URL = "https://ympagencies.com/api";
 export const LOGIN_URL = BASE_URL + "/api/login";
+export const CHANGE_PASSWORD = BASE_URL + "/api/employee/changepassword";
 export const GET_PROFILE = BASE_URL + "/api/employee";
 export const GET_USERS = BASE_URL + "/api/employee/allemployee";
 export const SAVE_USERS = BASE_URL + "/api/employee/addemployee";
