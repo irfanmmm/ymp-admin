@@ -97,7 +97,7 @@ function EmployeeInformation() {
         PhoneNumber: form.get("Phone").toString(),
         Address: form.get("Address"),
         City: form.get("City"),
-        Role: form.get("Role"),
+        RoleId: form.get("Role"),
       },
     });
 
@@ -160,7 +160,7 @@ function EmployeeInformation() {
             {error && (
               <div
                 ref={containerRef}
-                class="custome-modal modal-sm modal-dialog-centered"
+                class="custome-modal modal-sm modal-dialog-centered shadow-lg"
                 style={{
                   bottom: 0,
                 }}
